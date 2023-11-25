@@ -14,8 +14,21 @@ function App() {
   // a = 자료명  b = state 변경을 도와주는 함수명
   // 왜 state 써야함? 자료가 바껴도 자동으로 html에 재랜더링됨
   let [글제목,글제목변경] = useState(['여자 코트 추천', '남자 코트 추천', '리액트 부수기']);
-  let [따봉,따봉변경] = useState(0);
+  
+  
+  let [recommend,setRecommend] = useState([0,0,0]);
+
   let [modal, setModal] = useState(false);
+
+  // map 사용법
+  [1,2,3].map(function(a){
+    // array의 자료 갯수 만큼 함수의 코드를 실행
+    // 함수의 파라미터는 arry 안의 자료
+    // return 'a' a를 array에 담아줌(array 자료수 만큼)
+    // 파리미터 a, i ==> a는 array 안의 자료, i 는 0부터 증가(자바 for문의 i++)
+    return '1233211'
+    console.log(a)
+  })
 
   // let num = [1,2];
   // let [a,c] = [1,2];
@@ -45,28 +58,55 @@ function App() {
         글제목변경(sort)
       }}>sorting</button>
 
-      <div className = "list">
+      {/* <div className = "list">
         <h4>{글제목[0]} <span onClick={()=>{따봉변경(따봉+1)}}>👍</span>{따봉}
         <span onClick={()=>{따봉변경(따봉-1)}}>👎</span>{따봉}
         </h4>
         <p>2월 17일 발행</p>
-      </div>
-      <div className = "list">
+      </div> */}
+      {/* <div className = "list">
         <h4>{글제목[1]}</h4>
         <p>2월 17일 발행</p>
       </div>
       <div className = "list">
         <h4 onClick = {()=> {setModal(!modal)}}>{글제목[2]}</h4>
-        {/* <h4 onClick = {modal == true ? ()=> {setModal(false)} : ()=> {setModal(true)}}>{글제목[2]}</h4> */}
         <p>2월 17일 발행</p>
-      </div>
+      </div> */}
+        {/* 모달창 띄우기 (삼항연산자) */}
+        {/* <h4 onClick = {modal == true ? ()=> {setModal(false)} : ()=> {setModal(true)}}>{글제목[2]}</h4> */}
+      {
+        글제목.map(function(a, i){
+          return <div className = "list" key={i}  >
+
+          <h4>{a}
+            <span onClick={()=>{
+              let copy = [...recommend];
+              copy[i] = copy[i] + 1;
+              setRecommend(copy)
+              }}>👍</span>{recommend[i]}
+
+              <span onClick={()=>{
+                let copy = [...recommend];
+                copy[i] = copy[i] - 1;
+                setRecommend(copy)
+                }}>👎</span>
+                  {console.log(recommend[i])}
+          </h4>
+          <p>2월 17일 발행</p>
+          <p>{i}</p>
+        </div>
+        })
+      }
       
+
+
       {
         modal == true  ? <Modal/> : null
       }
     </div>
   );
 }
+
 
 // 컴포넌트 만들기(html 을 축약할때)
 function Modal(){
