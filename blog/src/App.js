@@ -15,6 +15,7 @@ function App() {
   // 왜 state 써야함? 자료가 바껴도 자동으로 html에 재랜더링됨
   let [글제목,글제목변경] = useState(['여자 코트 추천', '남자 코트 추천', '리액트 부수기']);
   let [따봉,따봉변경] = useState(0);
+  let [modal, setModal] = useState(false);
 
   // let num = [1,2];
   // let [a,c] = [1,2];
@@ -55,14 +56,14 @@ function App() {
         <p>2월 17일 발행</p>
       </div>
       <div className = "list">
-        <h4>{글제목[2]}</h4>
+        <h4 onClick = {()=> {setModal(!modal)}}>{글제목[2]}</h4>
+        {/* <h4 onClick = {modal == true ? ()=> {setModal(false)} : ()=> {setModal(true)}}>{글제목[2]}</h4> */}
         <p>2월 17일 발행</p>
       </div>
-
-      {/* 컴포넌트 */}
-      {/* <Modal></Modal> */}
-      <Modal/> 
-      <Com></Com>
+      
+      {
+        modal == true  ? <Modal/> : null
+      }
     </div>
   );
 }
@@ -88,14 +89,14 @@ function Modal(){
 // A함수의 변수는 B함수에서 가져다 쓸 수 없음
 
 // 컴포넌트 만들기 (연습)
-let Com = () => {
-  return(
-    <>
-    <div>
-      <h4>컴포넌트 만들어보기</h4>
-    </div>
-    </>
-  )
-}
+// let Com = () => {
+//   return(
+//     <>
+//     <div>
+//       <h4>컴포넌트 만들어보기</h4>
+//     </div>
+//     </>
+//   )
+// }
 
 export default App;
