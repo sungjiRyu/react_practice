@@ -13,12 +13,12 @@ function App() {
   // state 리액트에서 자료 잠깐 저장할때
   // a = 자료명  b = state 변경을 도와주는 함수명
   // 왜 state 써야함? 자료가 바껴도 자동으로 html에 재랜더링됨
-  let [글제목,글제목변경] = useState(['여자 코트 추천', '남자 코트 추천', '리액트 부수기']);
+  let [글제목,글제목변경] = useState(['여자 코트 추천', '남자 코트 추천', '리액트 독학']);
   
   
   let [recommend,setRecommend] = useState([0,0,0]);
 
-  let [modal, setModal] = useState(false);
+  let [modal, setModal] = useState([false,false,false]);
 
   // map 사용법
   [1,2,3].map(function(a){
@@ -44,9 +44,9 @@ function App() {
         <h4 style={{color:'white', fontSize : '16px'}}> 블로그임</h4>
       </div>
 
-      <button onClick={ ()=>{
+      <button onClick={function modify(){
         let copy = [...글제목]
-        copy[0] = '남자 코트 추천'; //state가 arry/object 이렇게 복사본(shallow copy) 만들어서 변경
+        copy[1] = '여자 코트 추천'; //state가 arry/object 이렇게 복사본(shallow copy) 만들어서 변경
         console.log(글제목 == copy);
         글제목변경(copy);
       }}>글수정</button>
@@ -64,21 +64,28 @@ function App() {
         </h4>
         <p>2월 17일 발행</p>
       </div> */}
-      {/* <div className = "list">
+      <div className = "list">
         <h4>{글제목[1]}</h4>
         <p>2월 17일 발행</p>
       </div>
       <div className = "list">
-        <h4 onClick = {()=> {setModal(!modal)}}>{글제목[2]}</h4>
-        <p>2월 17일 발행</p>
-      </div> */}
-        {/* 모달창 띄우기 (삼항연산자) */}
         {/* <h4 onClick = {modal == true ? ()=> {setModal(false)} : ()=> {setModal(true)}}>{글제목[2]}</h4> */}
-      {
+        <h4 onClick = {()=> {setModal(!modal)}}>{글제목[2]}</h4>
+        {console.log(modal)}
+        <p>2월 17일 발행</p>
+      </div>
+        {/* 모달창 띄우기 (삼항연산자) */}
+      {/* {
         글제목.map(function(a, i){
           return <div className = "list" key={i}  >
 
-          <h4>{a}
+          <h4 onClick = {()=>{
+            let copy = [...modal];
+            copy[i] = !modal[i];
+            setModal(copy)
+            console.log(modal);
+            
+          }}>{a}
             <span onClick={()=>{
               let copy = [...recommend];
               copy[i] = copy[i] + 1;
@@ -93,31 +100,40 @@ function App() {
                   {console.log(recommend[i])}
           </h4>
           <p>2월 17일 발행</p>
-          <p>{i}</p>
         </div>
         })
-      }
+      } */}
       
 
-
       {
-        modal == true  ? <Modal/> : null
+        modal == true  ? <Modal color={'skyblue'} 글제목={글제목} 글제목변경 ={글제목변경}/> : null
       }
+
     </div>
   );
 }
 
+// props를 사용해서 부모 컴포넌트에서 자식 컴포넌트로 전송 가능
+
 
 // 컴포넌트 만들기(html 을 축약할때)
-function Modal(){
+// 글수정 버튼을 누르면 첫 글 제목이 '여자코트 추천' 으로 바뀌어짐
+function Modal(props){
   return (
-    <div className ="modal">
-        <h4>제목</h4>
+    <div className ="modal" style={{background : props.color}}>
+        <h4>{props.글제목[0]}</h4>
         <p>날짜</p>
         <p>상세내용</p>
+        <button onClick={()=>{
+          let copy = [...props.글제목]
+          copy[1] = '여자코트 추천'
+          props.글제목변경(copy)
+        }} >글수정</button>
       </div>
   )
 }
+
+
 
 // 컴포넌트는 언제 쓰는가
 // 1. 반복적인 html 이 등장할때
