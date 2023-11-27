@@ -14,11 +14,9 @@ function App() {
   // a = 자료명  b = state 변경을 도와주는 함수명
   // 왜 state 써야함? 자료가 바껴도 자동으로 html에 재랜더링됨
   let [글제목,글제목변경] = useState(['여자 코트 추천', '남자 코트 추천', '리액트 독학']);
-  
-  
   let [recommend,setRecommend] = useState([0,0,0]);
-
-  let [modal, setModal] = useState([false,false,false]);
+  let [modal, setModal] = useState(false);
+  let [title, setTitle] = useState(0);
 
   // map 사용법
   [1,2,3].map(function(a){
@@ -58,55 +56,38 @@ function App() {
         글제목변경(sort)
       }}>sorting</button>
 
-      {/* <div className = "list">
-        <h4>{글제목[0]} <span onClick={()=>{따봉변경(따봉+1)}}>👍</span>{따봉}
-        <span onClick={()=>{따봉변경(따봉-1)}}>👎</span>{따봉}
-        </h4>
-        <p>2월 17일 발행</p>
-      </div> */}
-      <div className = "list">
-        <h4>{글제목[1]}</h4>
-        <p>2월 17일 발행</p>
-      </div>
-      <div className = "list">
+    
         {/* <h4 onClick = {modal == true ? ()=> {setModal(false)} : ()=> {setModal(true)}}>{글제목[2]}</h4> */}
-        <h4 onClick = {()=> {setModal(!modal)}}>{글제목[2]}</h4>
-        {console.log(modal)}
-        <p>2월 17일 발행</p>
-      </div>
-        {/* 모달창 띄우기 (삼항연산자) */}
-      {/* {
+
+      {
         글제목.map(function(a, i){
           return <div className = "list" key={i}  >
 
-          <h4 onClick = {()=>{
-            let copy = [...modal];
-            copy[i] = !modal[i];
-            setModal(copy)
-            console.log(modal);
-            
+          <h4 onClick = {()=>{ 
+            setModal(!modal);
+            setTitle(i)
           }}>{a}
-            <span onClick={()=>{
-              let copy = [...recommend];
+            <span onClick={()=>{ let copy = [...recommend];
               copy[i] = copy[i] + 1;
               setRecommend(copy)
               }}>👍</span>{recommend[i]}
 
-              <span onClick={()=>{
-                let copy = [...recommend];
+              <span onClick={()=>{ let copy = [...recommend];
                 copy[i] = copy[i] - 1;
                 setRecommend(copy)
                 }}>👎</span>
-                  {console.log(recommend[i])}
           </h4>
           <p>2월 17일 발행</p>
         </div>
         })
-      } */}
-      
+      }
+
+      <button onClick={()=>{setTitle(0)}}>글제목0</button>
+      <button onClick={()=>{setTitle(1)}}>글제목1</button>
+      <button onClick={()=>{setTitle(2)}}>글제목2</button>
 
       {
-        modal == true  ? <Modal color={'skyblue'} 글제목={글제목} 글제목변경 ={글제목변경}/> : null
+        modal == true  ? <Modal color={'skyblue'} 글제목={글제목} title = {title}/> : null
       }
 
     </div>
@@ -120,15 +101,10 @@ function App() {
 // 글수정 버튼을 누르면 첫 글 제목이 '여자코트 추천' 으로 바뀌어짐
 function Modal(props){
   return (
-    <div className ="modal" style={{background : props.color}}>
-        <h4>{props.글제목[0]}</h4>
+    <div className ="modal" >
+        <h4>{ props.글제목[props.title] }</h4>
         <p>날짜</p>
         <p>상세내용</p>
-        <button onClick={()=>{
-          let copy = [...props.글제목]
-          copy[1] = '여자코트 추천'
-          props.글제목변경(copy)
-        }} >글수정</button>
       </div>
   )
 }
