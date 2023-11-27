@@ -6,7 +6,13 @@ import { useState } from 'react';
 
 function App() {
 
+
   let post = '역삼 우동 맛집';
+  const date = new Date();
+  console.log(date);
+  console.log(date.getMonth);
+  let now = date.getMonth()+1 + '월 ' + date.getDate()+ '일'
+  console.log(now)
   // document.querySelector('h4').innerHTML = post;
   // 리액트에서는 jsx 문법 사용(js안에 html 쓸수 있게 해줌)
 
@@ -17,6 +23,8 @@ function App() {
   let [recommend,setRecommend] = useState([0,0,0]);
   let [modal, setModal] = useState(false);
   let [title, setTitle] = useState(0);
+  let [입력값, 입력값변경] = useState('');
+  let [today, setToday] = useState([now,now,now]);
 
   // map 사용법
   [1,2,3].map(function(a){
@@ -77,14 +85,40 @@ function App() {
                 setRecommend(copy)
                 }}>👎</span>
           </h4>
-          <p>2월 17일 발행</p>
+          <p>{today[i]} 발행</p>
+          <button onClick={()=>{
+            let copy = [...글제목]
+            copy.splice(i,1);
+            글제목변경(copy);
+            let copyRecomend = [...recommend]
+            copyRecomend.splice(i,1);
+            setRecommend(copyRecomend);
+            let copyToday = [...today]
+            copyToday.splice(i,1);
+            setToday(copyToday);
+          }}>삭제</button>
         </div>
         })
       }
 
-      <button onClick={()=>{setTitle(0)}}>글제목0</button>
-      <button onClick={()=>{setTitle(1)}}>글제목1</button>
-      <button onClick={()=>{setTitle(2)}}>글제목2</button>
+      <input onChange={(e)=> {
+        입력값변경(e.target.value);
+        console.log(입력값)
+        }}></input>
+      <button onClick={() => {
+        if(입력값 == null || 입력값 == '')
+        {alert('제목 입력하쇼')}
+        else{
+        let copy = [...글제목]
+        copy.unshift(입력값)
+        글제목변경(copy);
+        let copyRecomend = [...recommend]
+        copyRecomend.unshift(0);
+        setRecommend(copyRecomend);
+        let copyToday = [...today]
+        copyToday.unshift(now);
+        setToday(copyToday);
+        }} }>글발행</button>
 
       {
         modal == true  ? <Modal color={'skyblue'} 글제목={글제목} title = {title}/> : null
@@ -109,6 +143,11 @@ function Modal(props){
   )
 }
 
+function publish(입력값){
+  if (입력값 != null){
+    글제목.push('추가');
+  }
+}
 
 
 // 컴포넌트는 언제 쓰는가
