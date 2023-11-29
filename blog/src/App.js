@@ -131,7 +131,7 @@ function App() {
 // props를 사용해서 부모 컴포넌트에서 자식 컴포넌트로 전송 가능
 
 
-// 컴포넌트 만들기(html 을 축약할때)
+// 컴포넌트 만들기(function 문법)(html 을 축약할때)
 // 글수정 버튼을 누르면 첫 글 제목이 '여자코트 추천' 으로 바뀌어짐
 function Modal(props){
   return (
@@ -149,6 +149,19 @@ function publish(입력값){
   }
 }
 
+
+// 컴포넌트 만들기(class 문법)
+class Modal12 extends React.Component {
+  constructor(){
+  super()
+}
+render(){
+  return(
+    <div>안녕</div>
+  )
+}
+  
+}
 
 // 컴포넌트는 언제 쓰는가
 // 1. 반복적인 html 이 등장할때
