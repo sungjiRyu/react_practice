@@ -2,6 +2,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
+import React from 'react';
 
 
 function App() {
@@ -123,6 +124,7 @@ function App() {
       {
         modal == true  ? <Modal color={'skyblue'} 글제목={글제목} title = {title}/> : null
       }
+      <Modal2></Modal2>
 
     </div>
   );
@@ -151,13 +153,22 @@ function publish(입력값){
 
 
 // 컴포넌트 만들기(class 문법)
-class Modal12 extends React.Component {
-  constructor(){
-  super()
+class Modal2 extends React.Component {
+  constructor(props){
+  super(props);
+  this.state = {
+    name : 'kim',
+    age : 20
+  }
+
 }
 render(){
   return(
-    <div>안녕</div>
+    <div>안녕 {this.state.name}{this.state.age}
+      <button onClick={()=>{
+        this.setState({age : 21})
+      }}>state 변경</button>
+    </div>
   )
 }
   
